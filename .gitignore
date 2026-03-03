@@ -1,0 +1,40 @@
+# Java and Maven
+target/
+*.jar
+*.war
+*.ear
+.mvn/wrapper/maven-wrapper.jar
+
+# Node and React
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+build/
+dist/
+
+# Environment and Secrets
+.env
+.env.local
+*.properties
+!src/main/resources/application.properties
+
+# IDE Specific
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Docker and K8s
+docker-compose.override.yml
+.kubeconfig

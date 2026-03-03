@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  # The Backend (Spring Boot)
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/gitsandbox
+    depends_on:
+      - db
+
+  # The Database (PostgreSQL is standard for Spring Boot)
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=gitsandbox
+      - POSTGRES_USER=devopsuser
+      - POSTGRES_PASSWORD=devopspass
+    ports:
+      - "5432:5432"
+
+  # Monitoring (Requirement)
+  monitoring:
+    image: nagios/nagios:latest
+    ports:
+      - [cite_start]"8081:80" [cite: 27]

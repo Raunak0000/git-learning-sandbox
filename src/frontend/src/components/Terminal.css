@@ -1,0 +1,140 @@
+.terminal {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    overflow: hidden;
+    cursor: text;
+}
+
+.terminal-output {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+/* Scrollbar */
+.terminal-output::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminal-output::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.terminal-output::-webkit-scrollbar-thumb {
+    background: var(--surface-2);
+    border-radius: 4px;
+}
+
+.terminal-output::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+.terminal-welcome {
+    padding: 8px 0 16px;
+}
+
+.welcome-text {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.welcome-text code {
+    color: var(--accent);
+    background: var(--surface-1);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+}
+
+.terminal-line {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.terminal-line--input {
+    color: var(--text-primary);
+}
+
+.terminal-line--output {
+    color: var(--text-secondary);
+}
+
+.terminal-line--error {
+    color: var(--error);
+}
+
+.terminal-prompt {
+    color: var(--accent);
+    user-select: none;
+    font-weight: 600;
+}
+
+.terminal-text {
+    color: inherit;
+}
+
+/* Loading spinner */
+.terminal-line--loading {
+    padding: 4px 0;
+}
+
+.terminal-spinner {
+    display: inline-block;
+    width: 6px;
+    height: 14px;
+    background: var(--accent);
+    animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Input row */
+.terminal-input-row {
+    display: flex;
+    align-items: center;
+    padding: 8px 20px 16px;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+    flex-shrink: 0;
+}
+
+.terminal-input-row .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.terminal-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    caret-color: var(--accent);
+}
+
+.terminal-input::placeholder {
+    color: var(--text-muted);
+    font-style: normal;
+}
+
+.terminal-input:disabled {
+    opacity: 0.5;
+}

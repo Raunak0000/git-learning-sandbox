@@ -1,7 +1,14 @@
-version: '3.8'
 
 services:
-  # The Backend (Spring Boot)
+  # 1. The Frontend (React)
+  frontend:
+    build: ./src/frontend
+    ports:
+      - "3000:80" # Maps your computer's port 3000 to Nginx's internal port 80
+    depends_on:
+      - app
+
+  # 2. The Backend (Spring Boot)
   app:
     build: .
     ports:
@@ -11,7 +18,7 @@ services:
     depends_on:
       - db
 
-  # The Database (PostgreSQL is standard for Spring Boot)
+  # 3. The Database (PostgreSQL)
   db:
     image: postgres:13
     environment:
@@ -21,8 +28,8 @@ services:
     ports:
       - "5432:5432"
 
-  # Monitoring (Requirement)
+  # 4. Monitoring (Nagios)
   monitoring:
-    image: nagios/nagios:latest
+    image: jasonrivers/nagios:latest
     ports:
-      - [cite_start]"8081:80" [cite: 27]
+      - "8081:80"

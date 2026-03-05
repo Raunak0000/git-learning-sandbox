@@ -5,13 +5,13 @@ pipeline {
         stage('Build') {
             steps {
                 // This compiles your Java code and creates a .jar file
-                sh './mvnw clean package' [cite: 32]
+                sh 'mvn clean package' [cite: 32]
             }
         }
         stage('Test') {
             steps {
                 // Runs your JUnit tests (Requirement: >80% coverage)
-                sh './mvnw test' [cite: 34, 18]
+                sh 'mvn test' [cite: 34, 18]
             }
         }
         stage('Security Scan') {

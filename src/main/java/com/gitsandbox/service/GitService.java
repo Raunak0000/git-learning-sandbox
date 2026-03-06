@@ -22,6 +22,15 @@ public class GitService {
 
     private String currentBranch = "main";
 
+    public void reset() {
+        isInitialized = false;
+        commitHistory.clear();
+        branches.clear();
+        untrackedFiles.clear();
+        stagedFiles.clear();
+        currentBranch = "main";
+    }
+
     public String processCommand(String command) {
         command = command.trim();
 

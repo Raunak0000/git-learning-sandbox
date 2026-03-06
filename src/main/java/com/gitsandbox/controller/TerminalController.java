@@ -14,11 +14,17 @@ public class TerminalController {
     private GitService gitService;
 
     @PostMapping("/execute")
-    public String execute(@RequestBody Map<String, String> payload){
+    public String execute(@RequestBody Map<String, String> payload) {
         String command = payload.get("command");
-        if(command == null || command.isEmpty()){
+        if (command == null || command.isEmpty()) {
             return "";
         }
         return gitService.processCommand(command);
+    }
+
+    @PostMapping("/reset")
+    public String reset() {
+        gitService.reset();
+        return "Sandbox reset";
     }
 }

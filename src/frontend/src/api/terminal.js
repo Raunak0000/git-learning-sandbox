@@ -13,3 +13,16 @@ export async function executeCommand(command) {
 
   return res.text();
 }
+
+export async function resetSandbox() {
+  const res = await fetch(`${API_BASE}/reset`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Server error: ${res.status}`);
+  }
+
+  return res.text();
+}

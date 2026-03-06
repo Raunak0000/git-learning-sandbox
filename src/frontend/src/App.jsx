@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Terminal from './components/Terminal';
 import CommitGraph from './components/CommitGraph';
+import { resetSandbox } from './api/terminal';
 import './App.css';
 
 function App() {
@@ -12,6 +13,18 @@ function App() {
   const handleClear = () => {
     setEntries([]);
     inputRef.current?.focus();
+  };
+
+  const handleReset = async () => {
+    if (window.confirm('Are you sure you want to completely wipe the backend memory and reset the sandbox?')) {
+      try {
+        await resetSandbox();
+        setEntries([]);
+        window.dispatchEvent(new Event('terminal-cleared'));
+      } catch (err) {
+        console.error("Failed to reset sandbox:", err);
+      }
+    }
   };
 
   const handleCommandClick = (cmd) => {
@@ -29,7 +42,7 @@ function App() {
 
   return (
     <div className="app">
-      <Header onClear={handleClear} />
+      <Header onClear={handleClear} onReset={handleReset} />
       <div className="app-body">
         <Sidebar onCommandClick={handleCommandClick} />
         <div className="main-content">

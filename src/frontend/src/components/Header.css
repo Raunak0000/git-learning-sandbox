@@ -4,9 +4,12 @@
   justify-content: space-between;
   padding: 0 20px;
   height: 48px;
-  background: var(--surface-0);
-  border-bottom: 1px solid var(--border);
+  background: rgba(24, 24, 37, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(42, 42, 60, 0.5);
   flex-shrink: 0;
+  z-index: 10;
 }
 
 .header-brand {

@@ -10,6 +10,8 @@
   display: flex;
   flex: 1;
   overflow: hidden;
+  padding: 16px;
+  gap: 16px;
 }
 
 .main-content {
@@ -17,16 +19,20 @@
   flex-direction: row;
   flex: 1;
   overflow: hidden;
+  gap: 16px;
 }
 
 /* Responsive: collapse sidebar on small screens */
 @media (max-width: 640px) {
   .app-body {
     flex-direction: column;
+    padding: 12px;
+    gap: 12px;
   }
 
   .main-content {
     flex-direction: column;
+    gap: 12px;
   }
 
   .app-body .sidebar {

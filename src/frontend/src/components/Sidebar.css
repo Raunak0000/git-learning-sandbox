@@ -1,7 +1,9 @@
 .sidebar {
     width: 240px;
     background: var(--surface-0);
-    border-right: 1px solid var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
     padding: 16px 0;
     overflow-y: auto;
     flex-shrink: 0;

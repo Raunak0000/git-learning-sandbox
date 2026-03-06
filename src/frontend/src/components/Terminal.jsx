@@ -2,6 +2,30 @@ import { useState, useRef, useEffect } from 'react';
 import { executeCommand } from '../api/terminal';
 import './Terminal.css';
 
+const highlightText = (text) => {
+    if (!text || typeof text !== 'string') return { __html: text };
+
+    let html = text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+    // Highlight commit hashes (7 hex chars bounded by spaces or punctuation)
+    html = html.replace(/\b([a-f0-9]{7})\b/g, '<span class="highlight-hash">$1</span>');
+
+    // Highlight quoted strings ("msg" or 'msg')
+    html = html.replace(/("[^"]*")/g, '<span class="highlight-string">$1</span>');
+    html = html.replace(/('[^']*')/g, '<span class="highlight-string">$1</span>');
+
+    // Highlight bracketed branch names: [branch-name 488d885]
+    html = html.replace(/\[([A-Za-z0-9\-_]+)\s/g, '[<span class="highlight-branch">$1</span> ');
+
+    // Highlight standard "On branch X" messages
+    html = html.replace(/On branch ([A-Za-z0-9\-_]+)/g, 'On branch <span class="highlight-branch">$1</span>');
+
+    return { __html: html };
+};
+
 export default function Terminal({ inputRef, entries, setEntries }) {
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -98,7 +122,11 @@ export default function Terminal({ inputRef, entries, setEntries }) {
                         {entry.type === 'input' && (
                             <span className="terminal-prompt">$ </span>
                         )}
-                        <span className="terminal-text">{entry.text}</span>
+                        {entry.type === 'output' ? (
+                            <span className="terminal-text" dangerouslySetInnerHTML={highlightText(entry.text)} />
+                        ) : (
+                            <span className="terminal-text">{entry.text}</span>
+                        )}
                     </div>
                 ))}
 

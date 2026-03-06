@@ -3,6 +3,9 @@
     display: flex;
     flex-direction: column;
     background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
     overflow: hidden;
     cursor: text;
 }
@@ -76,10 +79,39 @@
     color: var(--accent);
     user-select: none;
     font-weight: 600;
+    animation: promptPulse 2s infinite ease-in-out;
+}
+
+@keyframes promptPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
 }
 
 .terminal-text {
     color: inherit;
+}
+
+/* Syntax Highlighting */
+.highlight-hash {
+    color: var(--warning);
+    font-weight: 600;
+}
+
+.highlight-branch {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.highlight-string {
+    color: #f9e2af;
+    /* soft yellow/peach */
 }
 
 /* Loading spinner */

@@ -106,7 +106,7 @@ public class GitService {
         }
 
         if (command.startsWith("git branch ")) {
-            String newBranch = command.substring(11).trim();
+            String newBranch = command.split("\\s+")[2].trim().replaceAll("^\"|\"$|^'|'$", "");
             if (branches.containsKey(newBranch))
                 return "fatal: A branch named '" + newBranch + "' already exists.";
             branches.put(newBranch, branches.get(currentBranch));
@@ -114,7 +114,7 @@ public class GitService {
         }
 
         if (command.startsWith("git checkout -b ")) {
-            String newBranch = command.substring(16).trim();
+            String newBranch = command.split("\\s+")[3].trim().replaceAll("^\"|\"$|^'|'$", "");
             if (branches.containsKey(newBranch))
                 return "fatal: A branch named '" + newBranch + "' already exists.";
 
@@ -124,7 +124,7 @@ public class GitService {
         }
 
         if (command.startsWith("git checkout ")) {
-            String targetBranch = command.substring(13).trim();
+            String targetBranch = command.split("\\s+")[2].trim().replaceAll("^\"|\"$|^'|'$", "");
             if (!branches.containsKey(targetBranch))
                 return "error: pathspec '" + targetBranch + "' did not match any file(s) known to git";
 
@@ -134,7 +134,7 @@ public class GitService {
 
         // Git Merge
         if (command.startsWith("git merge ")) {
-            String targetBranch = command.substring(10).trim();
+            String targetBranch = command.split("\\s+")[2].trim().replaceAll("^\"|\"$|^'|'$", "");
             if (!branches.containsKey(targetBranch))
                 return "merge: " + targetBranch + " - not something we can merge";
             if (targetBranch.equals(currentBranch))
@@ -189,7 +189,13 @@ public class GitService {
 
             Set<String> visited = new HashSet<>();
             List<String> queue = new ArrayList<>();
-            queue.add(currHash);
+
+            // Start traversal from ALL branch heads so we see the full graph
+            for (String headHash : branches.values()) {
+                if (headHash != null && !headHash.equals("null")) {
+                    queue.add(headHash);
+                }
+            }
 
             while (!queue.isEmpty()) {
                 String cHash = queue.remove(0);

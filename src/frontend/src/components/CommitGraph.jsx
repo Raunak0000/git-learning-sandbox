@@ -30,7 +30,6 @@ export default function CommitGraph() {
     const [commits, setCommits] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [collapsed, setCollapsed] = useState(false);
 
     const fetchLog = async () => {
         setLoading(true);
@@ -61,22 +60,20 @@ export default function CommitGraph() {
 
         // Listen to terminal executions to auto-refresh the graph
         const handleRefresh = () => fetchLog();
+        const handleClear = () => setCommits([]);
+
         window.addEventListener('terminal-command-executed', handleRefresh);
-        return () => window.removeEventListener('terminal-command-executed', handleRefresh);
+        window.addEventListener('terminal-cleared', handleClear);
+
+        return () => {
+            window.removeEventListener('terminal-command-executed', handleRefresh);
+            window.removeEventListener('terminal-cleared', handleClear);
+        };
     }, []);
 
     return (
-        <div className={`commit-graph ${collapsed ? 'commit-graph--collapsed' : ''}`}>
+        <div className="commit-graph">
             <div className="commit-graph-header">
-                <button
-                    className="commit-graph-toggle"
-                    onClick={() => setCollapsed((c) => !c)}
-                    title={collapsed ? 'Expand graph' : 'Collapse graph'}
-                >
-                    <span className={`toggle-arrow ${collapsed ? 'toggle-arrow--collapsed' : ''}`}>
-                        ▾
-                    </span>
-                </button>
                 <h2 className="commit-graph-title">Commit Graph</h2>
                 <button
                     className="commit-graph-refresh"
@@ -88,63 +85,61 @@ export default function CommitGraph() {
                 </button>
             </div>
 
-            {!collapsed && (
-                <div className="commit-graph-body">
-                    {loading && (
-                        <div className="commit-graph-status">Loading…</div>
-                    )}
+            <div className="commit-graph-body">
+                {loading && (
+                    <div className="commit-graph-status">Loading…</div>
+                )}
 
-                    {!loading && error && (
-                        <div className="commit-graph-status commit-graph-status--error">
-                            {error}
-                        </div>
-                    )}
+                {!loading && error && (
+                    <div className="commit-graph-status commit-graph-status--error">
+                        {error}
+                    </div>
+                )}
 
-                    {!loading && !error && commits.length === 0 && (
-                        <div className="commit-graph-status">
-                            No commits yet. Run <code>git commit</code> to get started.
-                        </div>
-                    )}
+                {!loading && !error && commits.length === 0 && (
+                    <div className="commit-graph-status">
+                        No commits yet. Run <code>git commit</code> to get started.
+                    </div>
+                )}
 
-                    {!loading && !error && commits.length > 0 && (
-                        <ol className="commit-list">
-                            {commits.map((commit, idx) => {
-                                const isMerge = commit.parents.length > 1;
+                {!loading && !error && commits.length > 0 && (
+                    <ol className="commit-list">
+                        {commits.map((commit, idx) => {
+                            const isMerge = commit.parents.length > 1;
 
-                                return (
-                                    <li key={commit.hash} className={`commit-node ${isMerge ? 'commit-node--merge' : ''}`}>
-                                        {/* Vertical rail + dot */}
-                                        <div className="commit-rail">
-                                            <span className={`commit-dot ${idx === 0 ? 'commit-dot--head' : ''} ${isMerge ? 'commit-dot--merge' : ''}`} />
-                                            {idx < commits.length - 1 && <span className="commit-line" />}
+                            return (
+                                <li key={commit.hash} className={`commit-node ${isMerge ? 'commit-node--merge' : ''}`}>
+                                    {/* Vertical rail + dot */}
+                                    <div className="commit-rail">
+                                        <span className={`commit-dot ${idx === 0 ? 'commit-dot--head' : ''} ${isMerge ? 'commit-dot--merge' : ''}`} />
+                                        {idx < commits.length - 1 && <span className="commit-line" />}
+                                    </div>
+
+                                    {/* Commit details */}
+                                    <div className="commit-info">
+                                        <code className="commit-hash">{commit.hash}</code>
+
+                                        <div className="commit-badges">
+                                            {commit.branches.map(b => (
+                                                <span key={b} className={`commit-badge ${b.includes('HEAD') ? 'commit-badge--head' : ''}`}>
+                                                    {b}
+                                                </span>
+                                            ))}
+                                            {isMerge && (
+                                                <span className="commit-badge commit-badge--merge">
+                                                    Merge: {commit.parents[0].substring(0, 4)} + {commit.parents[1].substring(0, 4)}
+                                                </span>
+                                            )}
                                         </div>
 
-                                        {/* Commit details */}
-                                        <div className="commit-info">
-                                            <code className="commit-hash">{commit.hash}</code>
-
-                                            <div className="commit-badges">
-                                                {commit.branches.map(b => (
-                                                    <span key={b} className={`commit-badge ${b.includes('HEAD') ? 'commit-badge--head' : ''}`}>
-                                                        {b}
-                                                    </span>
-                                                ))}
-                                                {isMerge && (
-                                                    <span className="commit-badge commit-badge--merge">
-                                                        Merge: {commit.parents[0].substring(0, 4)} + {commit.parents[1].substring(0, 4)}
-                                                    </span>
-                                                )}
-                                            </div>
-
-                                            <span className="commit-msg">{commit.message}</span>
-                                        </div>
-                                    </li>
-                                )
-                            })}
-                        </ol>
-                    )}
-                </div>
-            )}
+                                        <span className="commit-msg">{commit.message}</span>
+                                    </div>
+                                </li>
+                            )
+                        })}
+                    </ol>
+                )}
+            </div>
         </div>
     );
 }

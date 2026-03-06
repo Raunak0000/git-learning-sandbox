@@ -25,6 +25,7 @@ export default function Terminal({ inputRef, entries, setEntries }) {
         if (cmd === 'clear') {
             setEntries([]);
             setInput('');
+            window.dispatchEvent(new Event('terminal-cleared'));
             return;
         }
 
@@ -54,6 +55,9 @@ export default function Terminal({ inputRef, entries, setEntries }) {
             ]);
         } finally {
             setIsLoading(false);
+            setTimeout(() => {
+                inputRef.current?.focus();
+            }, 0);
         }
     };
 

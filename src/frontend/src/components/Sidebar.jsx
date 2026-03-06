@@ -2,8 +2,13 @@ import './Sidebar.css';
 
 const COMMANDS = [
     { cmd: 'git init', desc: 'Initialize a new repository' },
+    { cmd: 'touch file.txt', desc: 'Create a new file' },
+    { cmd: 'git add .', desc: 'Stage all files' },
     { cmd: 'git status', desc: 'Show working tree status' },
-    { cmd: 'git commit -m "message"', desc: 'Record changes with a message' },
+    { cmd: 'git commit -m "msg"', desc: 'Record changes' },
+    { cmd: 'git branch', desc: 'List branches' },
+    { cmd: 'git checkout -b feature', desc: 'Create and switch' },
+    { cmd: 'git merge feature', desc: 'Merge branch' },
     { cmd: 'git log', desc: 'Show commit history' },
 ];
 

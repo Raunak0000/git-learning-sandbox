@@ -45,6 +45,8 @@ export default function Terminal({ inputRef, entries, setEntries }) {
                 ...prev,
                 { type: isError ? 'error' : 'output', text: result },
             ]);
+
+            window.dispatchEvent(new Event('terminal-command-executed'));
         } catch (err) {
             setEntries((prev) => [
                 ...prev,

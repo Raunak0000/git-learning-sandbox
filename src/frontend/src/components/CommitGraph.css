@@ -190,18 +190,38 @@
     text-overflow: ellipsis;
 }
 
+.commit-badges {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
 .commit-badge {
     font-family: var(--font-mono);
     font-size: 9px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--surface-0);
-    background: var(--accent);
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
     padding: 1px 6px;
     border-radius: 3px;
     flex-shrink: 0;
     line-height: 1.5;
+}
+
+.commit-badge--head {
+    background: var(--accent);
+    color: var(--surface-0);
+    border-color: var(--accent);
+}
+
+.commit-badge--merge {
+    background: var(--warning);
+    color: var(--surface-0);
+    border-color: var(--warning);
 }
 
 /* --- Responsive --- */

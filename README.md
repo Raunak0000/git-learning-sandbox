@@ -1,103 +1,118 @@
-# Git Learning Sandbox
+# 🧪 Git Learning Sandbox
 
-An interactive, web-based terminal simulator designed to help users learn Git commands in a safe, visual environment. 
+> A web-based terminal simulator that lets you practice Git commands in a safe, visual environment — no real repo needed.
 
-The project features a sleek, dark-themed terminal UI with a modern glassmorphism aesthetic, coupled with a Spring Boot backend that simulates a complete Git repository state in-memory. It includes a real-time, animated Commit Graph visualization to help users understand the structure of their repository, staging areas, branches, and merges as they type commands.
+Built with **Spring Boot** + **React**, this app simulates an in-memory Git repository with a live commit graph so you can see exactly what your commands do.
 
-## Features
+---
 
-- **Interactive Terminal UI:** A custom-built terminal emulator with command history (using <kbd>↑</kbd> and <kbd>↓</kbd> arrows), syntax-highlighted outputs, and error handling.
-- **Git Simulation Backend:** A Spring Boot service that processes simulated Git commands and manages an in-memory repository state, including a staging area and branch tracking.
-- **Commit Graph Visualization:** A dynamically rendered, DAG-style vertical graph that visualizes the commit history side-by-side with the terminal. Features smooth CSS animations and highlights `HEAD`, branches, and merge commits.
-- **Advanced Git Operations:** Supports creating new files, staging (`git add`), branching (`git checkout -b`), and true merge commits (`git merge`).
-- **Nuclear Reset:** A built-in quick action to completely wipe the backend memory and reset the frontend UI to factory settings.
-- **Modern Tech Stack:** Built with Java 21, Spring Boot 3, React, and Vite.
+## ✨ Highlights
 
-## Architecture
+| Feature | Description |
+|---|---|
+| **Interactive Terminal** | Custom terminal with command history, syntax highlighting, and error feedback |
+| **Live Commit Graph** | Animated DAG visualization that updates in real-time as you work |
+| **Full Git Workflow** | Init, stage, commit, branch, checkout, merge — all simulated in-memory |
+| **Glassmorphism UI** | Modern dark theme with floating glass panels and smooth animations |
+| **Nuclear Reset** | One-click wipe to reset everything back to a clean slate |
+| **Containerized** | Full Docker Compose stack with frontend, backend, database, and monitoring |
 
-The application is split into two main components:
+---
 
-1. **Backend (Spring Boot)**
-   - Located in the root directory.
-   - Exposes a REST API (`POST /api/terminal/execute` and `POST /api/terminal/reset`) that receives user commands, parses them, updates the in-memory Git state, and returns terminal-formatted string responses.
+## 🏗️ Architecture
 
-2. **Frontend (React + Vite)**
-   - Located in `src/frontend/`.
-   - A single-page application that renders the Terminal, Header, Sidebar, and Commit Graph as floating glassmorphism cards.
-   - Proxies API requests to the backend during development to avoid CORS issues.
-
-## Prerequisites
-
-To run this project locally, you will need:
-- **Java 17** or higher
-- **Maven** (3.9+ recommended)
-- **Node.js** (v20.19+ or v22.12+)
-- **npm** (comes with Node.js)
-
-## Getting Started
-
-### 1. Start the Backend
-
-Open your terminal in the root directory of the project and run the Spring Boot application:
-
-```bash
-# Using Maven
-./mvnw spring-boot:run
 ```
-The backend server will start on `http://localhost:8080`.
+┌──────────────────┐     REST API     ┌──────────────────┐     JDBC     ┌────────────┐
+│  React + Vite    │ ───────────────► │  Spring Boot 3   │ ──────────► │ PostgreSQL │
+│  (src/frontend)  │  /api/terminal   │  (Java 17)       │             │            │
+└──────────────────┘                  └──────────────────┘             └────────────┘
+```
 
-### 2. Start the Frontend
+**Frontend** — Single-page app with Terminal, Commit Graph, Sidebar, and Header components.
+**Backend** — Parses commands, manages in-memory Git state, exposes REST endpoints.
+**Infrastructure** — Docker, Jenkins CI/CD, Kubernetes manifests, Terraform configs, Nagios monitoring.
 
-Open a new terminal window, navigate to the frontend directory, install dependencies, and start the development server:
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Java 17+
+- Maven 3.9+
+- Node.js 20+
+
+### Run Locally
 
 ```bash
+# Backend
+./mvnw spring-boot:run
+
+# Frontend (in a new terminal)
 cd src/frontend
 npm install
 npm run dev
 ```
-The Vite development server will start (usually on `http://localhost:5173` or `5174`).
 
-### 3. Open the App
+Open the URL from Vite (usually `http://localhost:5173`).
 
-Open your browser and navigate to the local URL provided by Vite. 
+### Run with Docker
 
-To get started, try typing the following sequence of commands in the terminal:
-1. `git init`
-2. `touch file.txt`
-3. `git add .`
-4. `git commit -m "Initial commit"`
-5. `git checkout -b feature`
-6. `git log`
+```bash
+docker-compose up --build
+```
 
-Notice how the **Commit Graph** panel on the right smoothly updates to reflect your simulated repository!
+This starts the frontend (`localhost:3000`), backend (`localhost:8080`), PostgreSQL, and Nagios monitoring (`localhost:8081`).
 
-## Supported Commands
+---
 
-Currently, the sandbox supports the following simulated commands:
+## 💻 Supported Commands
 
-### Basic Workflow
-- `git init`
-- `touch <file>`
-- `git status`
+```
+git init                        # Initialize a new repo
+git status                      # Show working tree status
+touch <file>                    # Create a new file
 
-### Staging & Committing
-- `git add <file>`
-- `git add .`
-- `git commit -m "message"`
-- `git log`
-- `git log --oneline`
-- `git log --graph-data`
+git add <file>                  # Stage a specific file
+git add .                       # Stage all files
+git commit -m "message"         # Commit staged changes
 
-### Branching & Merging
-- `git branch`
-- `git branch <name>`
-- `git checkout <branch>`
-- `git checkout -b <branch>`
-- `git merge <branch>`
+git log                         # Show commit history
+git log --oneline               # Compact commit log
 
-### Utilities
-- `clear` (terminal utility)
+git branch                      # List branches
+git branch <name>               # Create a new branch
+git checkout <branch>           # Switch branches
+git checkout -b <branch>        # Create and switch
+git merge <branch>              # Merge a branch
 
-## License
+clear                           # Clear terminal
+```
 
-This project is open-source and available under the terms of the MIT License.
+---
+
+## 📂 Project Structure
+
+```
+├── src/
+│   ├── main/            # Spring Boot backend (Java)
+│   ├── frontend/        # React + Vite frontend
+│   ├── test/            # Unit tests
+│   └── resources/       # App configuration
+├── infrastructure/
+│   ├── docker/          # Docker configs
+│   ├── kubernetes/      # K8s manifests
+│   └── terraform/       # IaC definitions
+├── monitoring/          # Nagios alerts & dashboards
+├── pipelines/           # Jenkinsfile (CI/CD)
+├── docs/                # Design doc, project plan, user guide
+├── Dockerfile           # Multi-stage backend build
+├── docker-compose.yml   # Full stack orchestration
+└── pom.xml              # Maven config
+```
+
+---
+
+## 📄 License
+
+MIT — see [LICENSE](LICENSE) for details.

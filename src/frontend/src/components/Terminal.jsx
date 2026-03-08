@@ -10,18 +10,16 @@ const highlightText = (text) => {
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;");
 
-    // Highlight commit hashes (7 hex chars bounded by spaces or punctuation)
-    html = html.replace(/\b([a-f0-9]{7})\b/g, '<span class="highlight-hash">$1</span>');
+    // 1. Highlight standard messages and branches FIRST
+    html = html.replace(/On branch ([A-Za-z0-9\-_]+)/g, 'On branch <span class="highlight-branch">$1</span>');
+    html = html.replace(/\[([A-Za-z0-9\-_]+)\s/g, '[<span class="highlight-branch">$1</span> ');
 
-    // Highlight quoted strings ("msg" or 'msg')
+    // 2. Highlight quoted strings SECOND
     html = html.replace(/("[^"]*")/g, '<span class="highlight-string">$1</span>');
     html = html.replace(/('[^']*')/g, '<span class="highlight-string">$1</span>');
 
-    // Highlight bracketed branch names: [branch-name 488d885]
-    html = html.replace(/\[([A-Za-z0-9\-_]+)\s/g, '[<span class="highlight-branch">$1</span> ');
-
-    // Highlight standard "On branch X" messages
-    html = html.replace(/On branch ([A-Za-z0-9\-_]+)/g, 'On branch <span class="highlight-branch">$1</span>');
+    // 3. Highlight commit hashes LAST (so it doesn't break the HTML attributes above)
+    html = html.replace(/\b([a-f0-9]{7})\b/g, '<span class="highlight-hash">$1</span>');
 
     return { __html: html };
 };

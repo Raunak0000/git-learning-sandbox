@@ -1,0 +1,21 @@
+{
+  "dashboard_title": "Git Sandbox Health Overview",
+  "panels": [
+    {
+      "type": "stat",
+      "title": "API Uptime",
+      "datasource": "Nagios",
+      "targets": [
+        { "target": "aliasByNode(gitsandbox-api.http.ping, 1)" }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Database CPU Usage",
+      "datasource": "Nagios",
+      "targets": [
+        { "target": "aliasByNode(gitsandbox-db.cpu.usage, 1)" }
+      ]
+    }
+  ]
+}

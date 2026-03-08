@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:8080/api/terminal';
+const API_BASE = '/api/terminal';
 
 export async function executeCommand(command) {
   const res = await fetch(`${API_BASE}/execute`, {

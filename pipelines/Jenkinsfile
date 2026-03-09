@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 // This compiles your Java code and creates a .jar file
-                bat 'mvn clean package'
+                bat 'mvn clean package -DskipTests'
             }
         }
         stage('Test') {

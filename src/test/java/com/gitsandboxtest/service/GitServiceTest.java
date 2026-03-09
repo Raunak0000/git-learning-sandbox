@@ -27,7 +27,7 @@ public class GitServiceTest {
     void testCommandBeforeInit() {
         String response = gitService.processCommand("git status");
         // Updated to match the capital 'F' and spacing in your GitService
-        assertTrue(response.contains("Fatal : not a git repository"));
+        assertTrue(response.contains("fatal : not a git repository"));
     }
 
     @Test

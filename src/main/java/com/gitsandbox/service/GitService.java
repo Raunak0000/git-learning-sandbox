@@ -45,7 +45,7 @@ public class GitService {
             return "Initialized empty Git Repository";
         }
         if (!isInitialized) {
-            return "fatal: not a git repository";
+            return "Fatal: not a git repository";
         }
 
         // Touch (create file)

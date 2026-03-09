@@ -5,19 +5,19 @@ pipeline {
         stage('Build') {
             steps {
                 // This compiles your Java code and creates a .jar file
-                sh 'mvn clean package' [cite: 32]
+                bat 'mvn clean package'
             }
         }
         stage('Test') {
             steps {
                 // Runs your JUnit tests (Requirement: >80% coverage)
-                sh 'mvn test' [cite: 34, 18]
+                bat 'mvn test'
             }
         }
         stage('Security Scan') {
             steps {
                 // Scans your Java dependencies for vulnerabilities
-                sh 'trivy fs .' [cite: 36]
+                bat 'trivy fs .'
             }
         }
     }
